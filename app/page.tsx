@@ -1,5 +1,6 @@
 "use client";
 
+import { Authenticator } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
@@ -36,6 +37,7 @@ export default function App() {
   }
 
   return (
+    <Authenticator>
     <main>
       <h1>My todos</h1>
       <button onClick={createTodo}>+ new</button>
@@ -53,6 +55,7 @@ export default function App() {
           Review next steps of this tutorial.
         </a>
       </div>
-    </main>
+      </main>
+    </Authenticator>
   );
 }
