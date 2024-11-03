@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { XMarkIcon, CalendarIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { Calendar } from './Calendar';
 import { Priority } from "@/app/types/priority";
+import { PrioritySlider } from './PrioritySlider';
 
 interface CreateTodoModalProps {
   isOpen: boolean;
@@ -146,25 +147,10 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Priority
-                  </label>
-                  <div className="flex gap-2">
-                    {Object.values(Priority).map((p) => (
-                      <button
-                        key={p}
-                        type="button"
-                        onClick={() => setPriority(p)}
-                        className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                          priority === p
-                            ? 'bg-primary-500 text-white'
-                            : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-                        }`}
-                      >
-                        {p}
-                      </button>
-                    ))}
-                  </div>
+                  <PrioritySlider
+                    value={priority}
+                    onChange={setPriority}
+                  />
                 </div>
               </div>
             </div>
