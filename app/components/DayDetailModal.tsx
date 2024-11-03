@@ -1,0 +1,121 @@
+import { Schema } from "@/amplify/data/resource";
+import { Dialog } from "@headlessui/react";
+import { XMarkIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
+import { Priority } from "../types/priority";
+import { getPriorityClasses } from "../utils/priorityUtils";
+import { useState, useEffect } from "react";
+
+interface DayDetailModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  date: Date;
+  todos: Array<Schema["Todo"]["type"]>;
+  onComplete: (todoId: string) => void;
+}
+
+export function DayDetailModal({ isOpen, onClose, date, todos, onComplete }: DayDetailModalProps) {
+  const [localTodos, setLocalTodos] = useState(todos);
+  const [isDeleting, setIsDeleting] = useState<{ [key: string]: boolean }>({});
+
+  useEffect(() => {
+    setLocalTodos(todos);
+  }, [todos]);
+
+  const handleComplete = async (todoId: string) => {
+    try {
+      setIsDeleting(prev => ({ ...prev, [todoId]: true }));
+      setLocalTodos(localTodos.filter(todo => todo.id !== todoId));
+      onComplete(todoId);
+    } catch (error) {
+      console.error('Failed to delete todo:', error);
+      setLocalTodos(todos);
+    } finally {
+      setIsDeleting(prev => ({ ...prev, [todoId]: false }));
+    }
+  };
+
+  return (
+    <Dialog open={isOpen} onClose={onClose} className="relative z-50">
+      <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+      
+      <div className="fixed inset-0 flex items-center justify-center p-4">
+        <Dialog.Panel className="mx-auto max-w-lg w-full rounded-xl bg-white dark:bg-gray-800 shadow-xl">
+          <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
+            <Dialog.Title className="text-lg font-semibold text-gray-900 dark:text-white">
+              {date.toLocaleDateString(undefined, { 
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </Dialog.Title>
+            <button
+              onClick={onClose}
+              className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              <XMarkIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+            </button>
+          </div>
+
+          <div className="p-4">
+            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+              Tasks for this day
+            </h3>
+            <div className="space-y-2">
+              {localTodos.length === 0 ? (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  No tasks scheduled for this day
+                </p>
+              ) : (
+                localTodos.map((todo) => (
+                  <div
+                    key={todo.id}
+                    className={`
+                      p-3 rounded-lg
+                      bg-gray-50 dark:bg-gray-900/50
+                      border border-gray-100 dark:border-gray-800
+                      border-l-2
+                      ${getPriorityClasses(todo.priority as Priority).border}
+                      group
+                      hover:bg-gray-100 dark:hover:bg-gray-900
+                      transition-colors
+                    `}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1">
+                        <p className="text-sm text-gray-900 dark:text-gray-100">
+                          {todo.content}
+                        </p>
+                        {todo.dueDate && (
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            Due: {new Date(todo.dueDate).toLocaleTimeString([], { 
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </p>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => handleComplete(todo.id)}
+                        disabled={isDeleting[todo.id]}
+                        className={`
+                          p-1.5 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 
+                          text-gray-400 hover:text-green-600 dark:hover:text-green-400
+                          opacity-0 group-hover:opacity-100 transition-opacity
+                          ${isDeleting[todo.id] ? 'cursor-not-allowed opacity-50' : ''}
+                        `}
+                        title="Complete task"
+                      >
+                        <CheckCircleIcon className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </Dialog.Panel>
+      </div>
+    </Dialog>
+  );
+} 

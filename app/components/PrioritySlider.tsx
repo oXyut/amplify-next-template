@@ -12,16 +12,13 @@ export function PrioritySlider({ value, onChange }: PrioritySliderProps) {
   const currentIndex = priorities.indexOf(value);
 
   const getColor = (priority: Priority) => {
-    switch (priority) {
-      case Priority.Low:
-        return 'bg-green-500';
-      case Priority.Medium:
-        return 'bg-yellow-500';
-      case Priority.High:
-        return 'bg-orange-500';
-      case Priority.Critical:
-        return 'bg-red-500';
-    }
+    const priorityMap = {
+      [Priority.Low]: 'bg-priority-low-bg text-priority-low-text',
+      [Priority.Medium]: 'bg-priority-medium-bg text-priority-medium-text',
+      [Priority.High]: 'bg-priority-high-bg text-priority-high-text',
+      [Priority.Critical]: 'bg-priority-critical-bg text-priority-critical-text',
+    };
+    return priorityMap[priority];
   };
 
   return (
@@ -33,8 +30,7 @@ export function PrioritySlider({ value, onChange }: PrioritySliderProps) {
         </label>
         <span className={clsx(
           "inline-flex items-center gap-1 px-2 py-1 rounded text-sm font-medium",
-          getColor(value),
-          "text-white"
+          getColor(value)
         )}>
           <BoltIcon className="w-4 h-4" />
           {value}
@@ -50,7 +46,7 @@ export function PrioritySlider({ value, onChange }: PrioritySliderProps) {
         <div
           className={clsx(
             "absolute h-full rounded-full transition-all duration-200 ease-in-out",
-            getColor(value)
+            getColor(value).split(' ')[0] // bgのクラスだけ取得
           )}
           style={{
             left: '0',
@@ -67,7 +63,7 @@ export function PrioritySlider({ value, onChange }: PrioritySliderProps) {
         >
           <div className={clsx(
             "w-4 h-4 -ml-2 rounded-full shadow-md border-2 border-white transition-colors duration-200",
-            getColor(value)
+            getColor(value).split(' ')[0] // bgのクラスだけ取得
           )} />
         </div>
         

@@ -12,6 +12,8 @@ import { ActionButton } from "./components/ActionButton";
 import { CreateTodoModal } from "./components/CreateTodoModal";
 import { Priority } from "@/app/types/priority";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { ViewToggle } from "./components/ViewToggle";
+import { TodoCalendar } from "./components/TodoCalendar";
 
 Amplify.configure(outputs);
 
@@ -21,6 +23,7 @@ export default function App() {
   const {user, signOut} = useAuthenticator();
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCalendarView, setIsCalendarView] = useState(false);
 
   function listTodos() {
     client.models.Todo.observeQuery().subscribe({
@@ -70,8 +73,18 @@ export default function App() {
           <PlusIcon className="w-6 h-6 mr-2" />
           <span>Create a new todo</span>
         </ActionButton>
+
+        <ViewToggle
+          isCalendarView={isCalendarView}
+          onToggle={setIsCalendarView}
+        />
         
-        <TodoList todos={todos} onDelete={deleteTodo} />
+        {isCalendarView ? (
+          <TodoCalendar todos={todos} onComplete={deleteTodo} />
+        ) : (
+          <TodoList todos={todos} onDelete={deleteTodo} />
+        )}
+
         <ActionButton onClick={signOut}>Sign out</ActionButton>
       </div>
 

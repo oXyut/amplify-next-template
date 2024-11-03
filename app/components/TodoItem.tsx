@@ -9,27 +9,31 @@ interface TodoItemProps {
   onDelete: () => void;
 }
 
-const priorityConfig = {
-  [Priority.Critical]: {
-    containerClass: "border-l-4 border-l-red-500",
-    badge: "bg-red-500 text-white",
-  },
-  [Priority.High]: {
-    containerClass: "border-l-4 border-l-orange-500",
-    badge: "bg-orange-500 text-white",
-  },
-  [Priority.Medium]: {
-    containerClass: "border-l-4 border-l-yellow-500",
-    badge: "bg-yellow-500 text-white",
-  },
-  [Priority.Low]: {
-    containerClass: "border-l-4 border-l-blue-500",
-    badge: "bg-blue-500 text-white",
-  },
-} as const;
+const getPriorityClasses = (priority: Priority) => {
+  const priorityMap = {
+    [Priority.Critical]: {
+      containerClass: "border-l-4 border-l-priority-critical-border",
+      badge: "bg-priority-critical-bg text-priority-critical-text",
+    },
+    [Priority.High]: {
+      containerClass: "border-l-4 border-l-priority-high-border",
+      badge: "bg-priority-high-bg text-priority-high-text",
+    },
+    [Priority.Medium]: {
+      containerClass: "border-l-4 border-l-priority-medium-border",
+      badge: "bg-priority-medium-bg text-priority-medium-text",
+    },
+    [Priority.Low]: {
+      containerClass: "border-l-4 border-l-priority-low-border",
+      badge: "bg-priority-low-bg text-priority-low-text",
+    },
+  } as const;
+
+  return priorityMap[priority];
+};
 
 export function TodoItem({ priority, content, dueDate, createdAt, onDelete }: TodoItemProps) {
-  const config = priorityConfig[priority];
+  const config = getPriorityClasses(priority);
   const isOverdue = dueDate ? isPast(dueDate) : false;
 
   return (
