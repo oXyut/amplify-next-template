@@ -79,7 +79,9 @@ export function DayDetailModal({ isOpen, onClose, date, todos, onComplete }: Day
                       group
                       hover:bg-gray-100 dark:hover:bg-gray-900
                       transition-colors
+                      cursor-pointer
                     `}
+                    onClick={() => handleComplete(todo.id)}
                   >
                     <div className="flex items-center gap-2">
                       <div className="flex-1">
@@ -95,19 +97,6 @@ export function DayDetailModal({ isOpen, onClose, date, todos, onComplete }: Day
                           </p>
                         )}
                       </div>
-                      <button
-                        onClick={() => handleComplete(todo.id)}
-                        disabled={isDeleting[todo.id]}
-                        className={`
-                          p-1.5 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 
-                          text-gray-400 hover:text-green-600 dark:hover:text-green-400
-                          opacity-0 group-hover:opacity-100 transition-opacity
-                          ${isDeleting[todo.id] ? 'cursor-not-allowed opacity-50' : ''}
-                        `}
-                        title="Complete task"
-                      >
-                        <CheckCircleIcon className="w-5 h-5" />
-                      </button>
                     </div>
                   </div>
                 ))
