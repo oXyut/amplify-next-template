@@ -21,6 +21,16 @@ module.exports = {
           800: '#3730a3',
           900: '#312e81',
         },
+        status: {
+          success: {
+            light: '#22c55e',  // green-500
+            dark: '#4ade80',   // green-400
+          },
+          danger: {
+            light: '#ef4444',  // red-500
+            dark: '#f87171',   // red-400
+          }
+        }
       },
     },
   },

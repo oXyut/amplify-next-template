@@ -31,10 +31,24 @@ export default function App() {
     listTodos();
   }, []);
 
-  function createTodo(content: string) {
+  function createTodo(
+    content: string,
+    dueDate?: string,
+    includeTime: boolean = false
+  ) {
+    let dueDateValue = null;
+    if (dueDate) {
+      const date = new Date(dueDate);
+      if (!includeTime) {
+        date.setHours(0, 0, 0, 0);
+      }
+      dueDateValue = date.toISOString();
+    }
+
     client.models.Todo.create({
       content,
       createdAt: new Date().toISOString(),
+      dueDate: dueDateValue,
     });
   }
 

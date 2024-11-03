@@ -1,14 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, CalendarIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { Calendar } from './Calendar';
 
 interface CreateTodoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (content: string) => void;
+  onSubmit: (content: string, dueDate?: string, includeTime?: boolean) => void;
 }
 
 export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalProps) {
   const [content, setContent] = useState('');
+  const [dueDate, setDueDate] = useState<string>('');
+  const [includeTime, setIncludeTime] = useState(false);
+  const [hasDueDate, setHasDueDate] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -20,23 +24,34 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (content.trim()) {
-      onSubmit(content);
+      onSubmit(
+        content,
+        hasDueDate ? dueDate : undefined,
+        includeTime
+      );
       setContent('');
+      setDueDate('');
+      setIncludeTime(false);
+      setHasDueDate(false);
       onClose();
     }
+  };
+
+  const today = new Date().toISOString().slice(0, includeTime ? 16 : 10);
+
+  const handleDateChange = (date: Date) => {
+    setDueDate(date.toISOString());
   };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      {/* Overlay */}
       <div 
         className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
         onClick={onClose}
       />
       
-      {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div 
           className="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 
@@ -59,18 +74,73 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
               >
                 Create New Todo
               </h3>
-              <div className="mt-4">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  placeholder="What needs to be done?"
-                  className="w-full rounded-lg border-2 border-gray-200 dark:border-gray-600 
-                    p-3 text-sm focus:border-primary-500 focus:outline-none
-                    bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                    placeholder-gray-400 dark:placeholder-gray-300"
-                />
+              <div className="mt-4 space-y-4">
+                <div>
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    placeholder="What needs to be done?"
+                    className="w-full rounded-lg border-2 border-gray-200 dark:border-gray-600 
+                      p-3 text-sm focus:border-primary-500 focus:outline-none
+                      bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                      placeholder-gray-400 dark:placeholder-gray-300"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={hasDueDate}
+                        onChange={(e) => {
+                          setHasDueDate(e.target.checked);
+                          if (!e.target.checked) {
+                            setDueDate('');
+                            setIncludeTime(false);
+                          }
+                        }}
+                        className="rounded border-gray-300 text-primary-600 
+                          focus:ring-primary-500 h-4 w-4 mr-2"
+                      />
+                      <CalendarIcon className="h-5 w-5 text-gray-400" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300 ml-1">
+                        Set due date
+                      </span>
+                    </label>
+                    
+                    {hasDueDate && (
+                      <label className="flex items-center ml-auto">
+                        <input
+                          type="checkbox"
+                          checked={includeTime}
+                          onChange={(e) => {
+                            setIncludeTime(e.target.checked);
+                            setDueDate('');
+                          }}
+                          className="rounded border-gray-300 text-primary-600 
+                            focus:ring-primary-500 h-4 w-4 mr-2"
+                        />
+                        <ClockIcon className="h-5 w-5 text-gray-400" />
+                        <span className="text-sm text-gray-700 dark:text-gray-300 ml-1">
+                          Include time
+                        </span>
+                      </label>
+                    )}
+                  </div>
+
+                  {hasDueDate && (
+                    <div className="mt-4">
+                      <Calendar
+                        selectedDate={dueDate ? new Date(dueDate) : null}
+                        onChange={handleDateChange}
+                        includeTime={includeTime}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -86,7 +156,7 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
               </button>
               <button
                 type="submit"
-                disabled={!content.trim()}
+                disabled={!content.trim() || (hasDueDate && !dueDate)}
                 className="rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold 
                   text-white shadow-sm hover:bg-primary-500 
                   focus:outline-none focus:ring-2 focus:ring-primary-500
