@@ -12,6 +12,7 @@ import { ActionButton } from "./components/ActionButton";
 import { TutorialMessage } from "./components/TutorialMessage";
 import { CreateTodoModal } from "./components/CreateTodoModal";
 import { Priority } from "@/app/types/priority";
+import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 Amplify.configure(outputs);
 
@@ -66,7 +67,10 @@ export default function App() {
           {user?.signInDetails?.loginId}'s todos
         </h1>
         
-        <ActionButton onClick={() => setIsModalOpen(true)}>+ new</ActionButton>
+        <ActionButton onClick={() => setIsModalOpen(true)}>
+          <PlusIcon className="w-6 h-6 mr-2" />
+          <span>Create a new todo</span>
+        </ActionButton>
         
         <TodoList todos={todos} onDelete={deleteTodo} />
         

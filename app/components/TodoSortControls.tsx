@@ -3,6 +3,8 @@ import {
   BoltIcon,
   CalendarDaysIcon,
   ClockIcon,
+  ChevronDownIcon,
+  ArrowDownIcon,
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
@@ -80,10 +82,11 @@ export function TodoSortControls({
                         'transition-all duration-200',
                         'active:scale-90',
                         'transform',
+                        'flex items-center justify-center',
                         sortOrder === 'asc' && 'rotate-180'
                       )}
                     >
-                      ↓
+                      <ArrowDownIcon className="w-5 h-5" />
                     </button>
                   )}
                 </span>
