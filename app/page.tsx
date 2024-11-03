@@ -11,9 +11,10 @@ import { TodoList } from "./components/TodoList";
 import { ActionButton } from "./components/ActionButton";
 import { CreateTodoModal } from "./components/CreateTodoModal";
 import { Priority } from "@/app/types/priority";
-import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { ViewToggle } from "./components/ViewToggle";
 import { TodoCalendar } from "./components/TodoCalendar";
+import { FaGithub, FaPlus } from "react-icons/fa";
+import { GITHUB_URL } from "./const/const";
 
 Amplify.configure(outputs);
 
@@ -70,7 +71,7 @@ export default function App() {
         </h1>
         
         <ActionButton onClick={() => setIsModalOpen(true)}>
-          <PlusIcon className="w-6 h-6 mr-2" />
+          <FaPlus className="w-5 h-5 mr-2" />
           <span>Create a new todo</span>
         </ActionButton>
 
@@ -86,6 +87,16 @@ export default function App() {
         )}
 
         <ActionButton onClick={signOut}>Sign out</ActionButton>
+
+        <a
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+        >
+          <FaGithub className="w-5 h-5" />
+          <span>View on GitHub</span>
+        </a>
       </div>
 
       <CreateTodoModal 

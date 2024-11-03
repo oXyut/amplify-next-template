@@ -1,11 +1,5 @@
 import { type SortType, type SortOrder } from '../types/sort';
-import {
-  BoltIcon,
-  CalendarDaysIcon,
-  ClockIcon,
-  ChevronDownIcon,
-  ArrowDownIcon,
-} from '@heroicons/react/24/outline';
+import { FaBolt, FaCalendar, FaClock, FaChevronDown, FaArrowDown } from 'react-icons/fa';
 import clsx from 'clsx';
 
 interface TodoSortControlsProps {
@@ -19,17 +13,17 @@ const sortButtons = [
   {
     type: 'priority' as SortType,
     label: 'Priority',
-    Icon: BoltIcon,
+    Icon: FaBolt,
   },
   {
     type: 'created' as SortType,
     label: 'Created',
-    Icon: CalendarDaysIcon,
+    Icon: FaCalendar,
   },
   {
     type: 'due' as SortType,
     label: 'Due',
-    Icon: ClockIcon,
+    Icon: FaClock,
   },
 ] as const;
 
@@ -86,7 +80,7 @@ export function TodoSortControls({
                         sortOrder === 'asc' && 'rotate-180'
                       )}
                     >
-                      <ArrowDownIcon className="w-5 h-5" />
+                      <FaArrowDown className="w-4 h-4" />
                     </button>
                   )}
                 </span>

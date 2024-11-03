@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 interface CalendarProps {
   selectedDate: Date | null;
@@ -72,7 +72,7 @@ export function Calendar({ selectedDate, onChange, includeTime = false }: Calend
           onClick={() => changeMonth(-1)}
           className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
         >
-          <ChevronLeftIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+          <FaChevronLeft className="h-4 w-4 text-gray-600 dark:text-gray-300" />
         </button>
         <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
           {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
@@ -82,7 +82,7 @@ export function Calendar({ selectedDate, onChange, includeTime = false }: Calend
           onClick={() => changeMonth(1)}
           className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
         >
-          <ChevronRightIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+          <FaChevronRight className="h-4 w-4 text-gray-600 dark:text-gray-300" />
         </button>
       </div>
 

@@ -1,4 +1,4 @@
-import { Squares2X2Icon as ViewListIcon, CalendarIcon } from "@heroicons/react/24/outline";
+import { FaList, FaCalendar } from 'react-icons/fa';
 
 interface ViewToggleProps {
   isCalendarView: boolean;
@@ -7,29 +7,35 @@ interface ViewToggleProps {
 
 export function ViewToggle({ isCalendarView, onToggle }: ViewToggleProps) {
   return (
-    <div className="flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1 w-full">
+    <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg w-full">
       <button
         onClick={() => onToggle(false)}
-        className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md transition-colors w-1/2 ${
-          !isCalendarView
-            ? "bg-white dark:bg-gray-700 text-primary-600 dark:text-primary-400 shadow-sm"
-            : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-        }`}
+        className={`
+          flex items-center justify-center gap-2 px-3 py-2 rounded-md w-1/2
+          transition-colors duration-200
+          ${!isCalendarView
+            ? 'bg-white dark:bg-gray-700 text-primary-600 dark:text-primary-400 shadow-sm'
+            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+          }
+        `}
       >
-        <ViewListIcon className="w-5 h-5" />
-        <span className="text-sm font-medium">List</span>
+        <FaList className="w-4 h-4" />
+        <span>List</span>
       </button>
 
       <button
         onClick={() => onToggle(true)}
-        className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md transition-colors w-1/2 ${
-          isCalendarView
-            ? "bg-white dark:bg-gray-700 text-primary-600 dark:text-primary-400 shadow-sm"
-            : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-        }`}
+        className={`
+          flex items-center justify-center gap-2 px-3 py-2 rounded-md w-1/2
+          transition-colors duration-200
+          ${isCalendarView
+            ? 'bg-white dark:bg-gray-700 text-primary-600 dark:text-primary-400 shadow-sm'
+            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+          }
+        `}
       >
-        <CalendarIcon className="w-5 h-5" />
-        <span className="text-sm font-medium">Calendar</span>
+        <FaCalendar className="w-4 h-4" />
+        <span>Calendar</span>
       </button>
     </div>
   );

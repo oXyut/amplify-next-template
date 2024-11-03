@@ -1,5 +1,5 @@
 import { Priority } from '@/app/types/priority';
-import { BoltIcon } from '@heroicons/react/24/outline';
+import { FaBolt } from 'react-icons/fa';
 import clsx from 'clsx';
 
 interface PrioritySliderProps {
@@ -32,7 +32,7 @@ export function PrioritySlider({ value, onChange }: PrioritySliderProps) {
           "inline-flex items-center gap-1 px-2 py-1 rounded text-sm font-medium",
           getColor(value)
         )}>
-          <BoltIcon className="w-4 h-4" />
+          <FaBolt className="w-3 h-3" />
           {value}
         </span>
       </div>

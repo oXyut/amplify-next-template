@@ -1,6 +1,6 @@
 import { Schema } from "@/amplify/data/resource";
 import { Priority } from "../types/priority";
-import { ChevronLeftIcon, ChevronRightIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
+import { FaChevronLeft, FaChevronRight, FaCalendar } from "react-icons/fa";
 import { useState } from "react";
 import { DayDetailModal } from "./DayDetailModal";
 import { getPriorityClasses } from "../utils/priorityUtils";
@@ -74,13 +74,13 @@ export function TodoCalendar({ todos, onComplete }: TodoCalendarProps) {
               onClick={() => changeMonth(-1)}
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
-              <ChevronLeftIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              <FaChevronLeft className="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
             <button
               onClick={() => changeMonth(1)}
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
-              <ChevronRightIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              <FaChevronRight className="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
           </div>
 
@@ -92,7 +92,7 @@ export function TodoCalendar({ todos, onComplete }: TodoCalendarProps) {
             onClick={goToToday}
             className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
-            <CalendarDaysIcon className="w-5 h-5" />
+            <FaCalendar className="w-4 h-4" />
             <span>Today</span>
           </button>
         </div>

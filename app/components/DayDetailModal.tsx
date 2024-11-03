@@ -1,6 +1,6 @@
 import { Schema } from "@/amplify/data/resource";
 import { Dialog } from "@headlessui/react";
-import { XMarkIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
+import { FaTimes } from 'react-icons/fa';
 import { Priority } from "../types/priority";
 import { getPriorityClasses } from "../utils/priorityUtils";
 import { useState, useEffect } from "react";
@@ -51,9 +51,9 @@ export function DayDetailModal({ isOpen, onClose, date, todos, onComplete }: Day
             </Dialog.Title>
             <button
               onClick={onClose}
-              className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
-              <XMarkIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+              <FaTimes className="h-5 w-5" />
             </button>
           </div>
 

@@ -1,0 +1,1 @@
+export const GITHUB_URL = "https://github.com/oXyut/amplify-next-template";

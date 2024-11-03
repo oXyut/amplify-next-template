@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { XMarkIcon, CalendarIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { FaTimes, FaCalendar, FaClock } from 'react-icons/fa';
 import { Calendar } from './Calendar';
 import { Priority } from "@/app/types/priority";
 import { PrioritySlider } from './PrioritySlider';
@@ -67,7 +67,7 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
               className="rounded-md text-gray-400 hover:text-gray-500 
                 focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
-              <XMarkIcon className="h-6 w-6" />
+              <FaTimes className="h-5 w-5" />
             </button>
           </div>
 
@@ -109,7 +109,7 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
                         className="rounded border-gray-300 text-primary-600 
                           focus:ring-primary-500 h-4 w-4 mr-2"
                       />
-                      <CalendarIcon className="h-5 w-5 text-gray-400" />
+                      <FaCalendar className="h-4 w-4 text-gray-400" />
                       <span className="text-sm text-gray-700 dark:text-gray-300 ml-1">
                         Set due date
                       </span>
@@ -127,7 +127,7 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
                           className="rounded border-gray-300 text-primary-600 
                             focus:ring-primary-500 h-4 w-4 mr-2"
                         />
-                        <ClockIcon className="h-5 w-5 text-gray-400" />
+                        <FaClock className="h-4 w-4 text-gray-400" />
                         <span className="text-sm text-gray-700 dark:text-gray-300 ml-1">
                           Include time
                         </span>

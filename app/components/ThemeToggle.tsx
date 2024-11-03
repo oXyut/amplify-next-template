@@ -1,5 +1,5 @@
 import { useTheme } from '../contexts/ThemeContext'
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline'
+import { FaSun, FaMoon } from 'react-icons/fa'
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme()
@@ -16,14 +16,16 @@ export function ThemeToggle() {
       aria-label="Toggle theme"
     >
       <div className="relative w-6 h-6">
-        <SunIcon 
+        <FaSun 
           className={`w-6 h-6 text-primary-600 dark:text-primary-300
-            absolute transform transition-all duration-500 ease-in-out
+            absolute inset-0
+            transform transition-all duration-500 ease-in-out
             ${theme === 'light' ? 'rotate-0 opacity-100' : 'rotate-90 opacity-0'}`}
         />
-        <MoonIcon 
+        <FaMoon 
           className={`w-6 h-6 text-primary-600 dark:text-primary-300
-            absolute transform transition-all duration-500 ease-in-out
+            absolute inset-0
+            transform transition-all duration-500 ease-in-out
             ${theme === 'dark' ? 'rotate-0 opacity-100' : '-rotate-90 opacity-0'}`}
         />
       </div>
