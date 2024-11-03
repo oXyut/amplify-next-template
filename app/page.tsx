@@ -4,10 +4,13 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
-import "./../app/app.css";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
+import { TodoList } from "./components/TodoList";
+import { ActionButton } from "./components/ActionButton";
+import { TutorialMessage } from "./components/TutorialMessage";
+import { CreateTodoModal } from "./components/CreateTodoModal";
 
 Amplify.configure(outputs);
 
@@ -16,6 +19,7 @@ const client = generateClient<Schema>();
 export default function App() {
   const {user, signOut} = useAuthenticator();
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function listTodos() {
     client.models.Todo.observeQuery().subscribe({
@@ -27,9 +31,10 @@ export default function App() {
     listTodos();
   }, []);
 
-  function createTodo() {
+  function createTodo(content: string) {
     client.models.Todo.create({
-      content: window.prompt("Todo content"),
+      content,
+      createdAt: new Date().toISOString(),
     });
   }
 
@@ -38,24 +43,26 @@ export default function App() {
   }
 
   return (
-    <main>
-      <h1>{user?.signInDetails?.loginId}'s todos</h1>
-      <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id} onClick={() => deleteTodo(todo.id)}>
-            {todo.content}
-          </li>
-        ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://docs.amplify.aws/nextjs/start/quickstart/nextjs-app-router-client-components/">
-          Review next steps of this tutorial.
-        </a>
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-primary-400 to-white dark:from-primary-900 dark:to-gray-900 p-4">
+      <div className="w-full max-w-md flex flex-col items-stretch gap-4">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          {user?.signInDetails?.loginId}'s todos
+        </h1>
+        
+        <ActionButton onClick={() => setIsModalOpen(true)}>+ new</ActionButton>
+        
+        <TodoList todos={todos} onDelete={deleteTodo} />
+        
+        <TutorialMessage />
+        
+        <ActionButton onClick={signOut}>Sign out</ActionButton>
       </div>
-        <button onClick={signOut}>Sign out</button>
-      </main>
+
+      <CreateTodoModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={createTodo}
+      />
+    </main>
   );
 }
