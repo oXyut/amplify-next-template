@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { XMarkIcon, CalendarIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { Calendar } from './Calendar';
+import { Priority } from "@/app/types/priority";
 
 interface CreateTodoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (content: string, dueDate?: string, includeTime?: boolean) => void;
+  onSubmit: (content: string, dueDate?: string, includeTime?: boolean, priority?: Priority) => void;
 }
 
 export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalProps) {
@@ -13,6 +14,7 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
   const [dueDate, setDueDate] = useState<string>('');
   const [includeTime, setIncludeTime] = useState(false);
   const [hasDueDate, setHasDueDate] = useState(false);
+  const [priority, setPriority] = useState<Priority>(Priority.Medium);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -27,7 +29,8 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
       onSubmit(
         content,
         hasDueDate ? dueDate : undefined,
-        includeTime
+        includeTime,
+        priority
       );
       setContent('');
       setDueDate('');
@@ -141,6 +144,28 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
                     </div>
                   )}
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Priority
+                  </label>
+                  <div className="flex gap-2">
+                    {Object.values(Priority).map((p) => (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => setPriority(p)}
+                        className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                          priority === p
+                            ? 'bg-primary-500 text-white'
+                            : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -170,4 +195,4 @@ export function CreateTodoModal({ isOpen, onClose, onSubmit }: CreateTodoModalPr
       </div>
     </div>
   );
-} 
+}

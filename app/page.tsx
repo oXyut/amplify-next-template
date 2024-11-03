@@ -11,6 +11,7 @@ import { TodoList } from "./components/TodoList";
 import { ActionButton } from "./components/ActionButton";
 import { TutorialMessage } from "./components/TutorialMessage";
 import { CreateTodoModal } from "./components/CreateTodoModal";
+import { Priority } from "@/app/types/priority";
 
 Amplify.configure(outputs);
 
@@ -34,7 +35,8 @@ export default function App() {
   function createTodo(
     content: string,
     dueDate?: string,
-    includeTime: boolean = false
+    includeTime: boolean = false,
+    priority: Priority = Priority.Medium
   ) {
     let dueDateValue = null;
     if (dueDate) {
@@ -49,6 +51,7 @@ export default function App() {
       content,
       createdAt: new Date().toISOString(),
       dueDate: dueDateValue,
+      priority
     });
   }
 

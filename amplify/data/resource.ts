@@ -12,6 +12,7 @@ const schema = a.schema({
       content: a.string().required(),
       createdAt: a.datetime().required(),
       dueDate: a.datetime(),
+      priority: a.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]),
     })
     .authorization((allow) => [allow.owner()]),
 });
