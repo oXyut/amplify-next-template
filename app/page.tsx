@@ -9,7 +9,6 @@ import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 import { TodoList } from "./components/TodoList";
 import { ActionButton } from "./components/ActionButton";
-import { TutorialMessage } from "./components/TutorialMessage";
 import { CreateTodoModal } from "./components/CreateTodoModal";
 import { Priority } from "@/app/types/priority";
 import { PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
@@ -73,9 +72,6 @@ export default function App() {
         </ActionButton>
         
         <TodoList todos={todos} onDelete={deleteTodo} />
-        
-        <TutorialMessage />
-        
         <ActionButton onClick={signOut}>Sign out</ActionButton>
       </div>
 
