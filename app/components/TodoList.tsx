@@ -41,7 +41,7 @@ export function TodoList({ todos, onDelete }: TodoListProps) {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       <TodoSortControls
         sortType={sortType}
         sortOrder={sortOrder}
@@ -49,18 +49,16 @@ export function TodoList({ todos, onDelete }: TodoListProps) {
         onSortOrderChange={setSortOrder}
       />
 
-      <div className="space-y-2">
-        {sortedTodos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            priority={todo.priority as Priority}
-            content={todo.content}
-            dueDate={todo.dueDate ? new Date(todo.dueDate) : undefined}
-            createdAt={new Date(todo.createdAt)}
-            onDelete={() => onDelete(todo.id)}
-          />
-        ))}
-      </div>
+      {sortedTodos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          priority={todo.priority as Priority}
+          content={todo.content}
+          dueDate={todo.dueDate ? new Date(todo.dueDate) : undefined}
+          createdAt={new Date(todo.createdAt)}
+          onDelete={() => onDelete(todo.id)}
+        />
+      ))}
     </div>
   );
 }

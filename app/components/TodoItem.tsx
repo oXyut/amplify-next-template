@@ -39,7 +39,7 @@ export function TodoItem({ priority, content, dueDate, createdAt, onDelete }: To
   return (
     <div 
       className={`
-        relative rounded-lg p-4 mb-3
+        relative rounded-lg p-4
         ${config.containerClass}
         bg-white dark:bg-gray-800
         hover:bg-gray-50 dark:hover:bg-gray-700
