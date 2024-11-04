@@ -1,6 +1,6 @@
 import type { Schema } from "@/amplify/data/resource";
 import { useState } from 'react';
-import { Priority } from '../types/priority';
+import { Priority, getPriorityValue } from '../types/priority';
 import { type SortType, type SortOrder } from '../types/sort';
 import { TodoItem } from './TodoItem';
 import { TodoSortControls } from './TodoSortControls';
@@ -14,19 +14,12 @@ export function TodoList({ todos, onDelete }: TodoListProps) {
   const [sortType, setSortType] = useState<SortType>('priority');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
-  const priorityOrder = {
-    [Priority.Critical]: 0,
-    [Priority.High]: 1,
-    [Priority.Medium]: 2,
-    [Priority.Low]: 3,
-  };
-
   const sortedTodos = [...todos].sort((a, b) => {
     let comparison = 0;
     
     switch (sortType) {
       case 'priority':
-        comparison = priorityOrder[a.priority as Priority] - priorityOrder[b.priority as Priority];
+        comparison = getPriorityValue(a.priority as Priority) - getPriorityValue(b.priority as Priority);
         if (comparison === 0) {
           comparison = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         }
